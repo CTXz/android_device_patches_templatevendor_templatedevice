@@ -9,7 +9,8 @@ TOP=$LOCAL_PATH/../../../..
 # make_patch_stamp function
 #
 # Usage: This function will create a so called patch mark/list in the directory of the patched file. This is so we can avoid conflicts 
-# SYNTAX : make_patch_stamp 
+# SYNTAX : make_patch_stamp 'List off all patched files' <DIRECTORY TO BE PATCHED>
+# EX : make_patch_stamp 'Android.mk Utils.cpp' ${TOP}/system/vold
 function make_patch_stamp
 {
 	# Echo patch list (.patchlist) to patch dir ($1 = Files, $2 = path/to/patchlist)
@@ -21,42 +22,32 @@ function make_patch_stamp
 
 if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 
+	# Turn patcher ON
 	echo 1 > ${LOCAL_PATH}/PATCHED
 
-	echo "Applying Vold patch!"
-
-		make_patch_stamp 'Utils.cpp Android.mk' ${VOLD_DIR}
+	# Make stamp, see syntax in function definition
+	make_patch_stamp '<YOUR PATCH LIST>' <YOUR DIR>
 
 	# Move original/untouched/un-patched files to backup dir
-	if [ ! -d ${RVRT_VOLD_DIR} ]; then
+	# <BACKUP DIR> could be ${TOP}/system/vold/.backup
+	# NOTE! A BACKUP DIR MUST BE IN THE PATCHED DIR AND MUST BE CALLED .backup!
+	if [ ! -d <BACKUP DIR> ]; then
 
-		mkdir ${RVRT_VOLD_DIR}
+		mkdir <BACKUP DIR>
 		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_VOLD_DIR}/README
-		mv ${VOLD_DIR}/Utils.cpp ${RVRT_VOLD_DIR}/Utils.cpp.backup
+		
+		# Move original files to backup dir
+		# <ORIGINAL_FILE_PATH> could be ${TOP}/system/vold/Utils.cpp
+		# <BACKUP_DIR> could be ${TOP}/system/vold/.backup
+		# <ORIGINAL_FILE_NAME> could be Utils.cpp
+		mv <ORIGINAL_FILE_PATH> <BACKUP_DIR>/<ORIGINAL_FILE_NAME>.backup
 		mv ${VOLD_DIR}/Android.mk ${RVRT_VOLD_DIR}/Android.mk.backup
 	
 	fi
 
-	# Copy patched files to CM source
-	cp ${PATCHED_VOLD_DIR}/Utils.cpp ${VOLD_DIR}/
-	cp ${PATCHED_VOLD_DIR}/Android.mk ${VOLD_DIR}/
-
-	echo "Applying torch patch!"
-
-	if [ ! -f ${TORCH_DIR}/.patchlist ]; then
-		make_patch_stamp 'FlashlightTile.java' ${TORCH_DIR}
-	fi
-
-	# Move original/untouched/un-patched files to backup dir
-	if [ ! -d ${RVRT_TORCH_DIR} ]; then
-
-		mkdir ${RVRT_TORCH_DIR}
-		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_TORCH_DIR}/README
-		mv ${TORCH_DIR}/FlashlightTile.java ${RVRT_TORCH_DIR}/FlashlightTile.java.backup
-	
-	fi
-
-	# Copy patched files to CM source
-	cp ${PATCHED_TORCH_DIR}/FlashlightTile.java ${TORCH_DIR}/
+	# Copy patched files to source
+	# <PATCHED FILE> could be ${LOCAL_PATH}/patched/system/vold/Utils.cpp
+	# <PATCHED DIR> could be ${TOP}/system/vold
+	cp <PATCHED FILE> <PATCHED DIR>/
 
 fi
