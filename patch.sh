@@ -34,15 +34,14 @@ if [ $(cat ${LOCAL_PATH}/PATCHED) = "0" ]; then
 	if [ ! -d <BACKUP DIR> ]; then
 
 		mkdir <BACKUP DIR>
-		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > ${RVRT_VOLD_DIR}/README
+		echo "THIS DIR CONTAINS UNTOUCHED/UNPATCHED FILES, DO NOT REMOVE! THIS DIR WILL GET REMOVED AUTOMATICALLY IF NECCESSARY" > <BACKUP_DIR>/README
 		
 		# Move original files to backup dir
 		# <ORIGINAL_FILE_PATH> could be ${TOP}/system/vold/Utils.cpp
 		# <BACKUP_DIR> could be ${TOP}/system/vold/.backup
 		# <ORIGINAL_FILE_NAME> could be Utils.cpp
 		mv <ORIGINAL_FILE_PATH> <BACKUP_DIR>/<ORIGINAL_FILE_NAME>.backup
-		mv ${VOLD_DIR}/Android.mk ${RVRT_VOLD_DIR}/Android.mk.backup
-	
+
 	fi
 
 	# Copy patched files to source
