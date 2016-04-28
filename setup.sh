@@ -23,12 +23,7 @@ if [ ! -d ${LOCAL_PATH}/patched ]; then
 fi
 
 # Creates identical directory to the original one inside the patched.
-if [ -d {TOP}/$1 ]; then
-	mkdir -p ${PTCH_DIR}/$1
-else
-	# If the given directory doesn't exist, we'll abort!
-	echo "Target dir '$1' not found!"
-fi
+mkdir -p ${PTCH_DIR}/$1
 
 # Copy original files to patched directory
 cp ${TOP}/$1/$2 ${PTCH_DIR}/$1/
