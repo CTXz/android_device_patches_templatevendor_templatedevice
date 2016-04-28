@@ -49,7 +49,7 @@ if [ $(cat ${LOCAL_PATH}/PATCHED) = "1" ]; then
 
 			# Delte backup dir if its empty
 			# NOTE: IF YOU HAVE MORE THAN ONE PATCHED FILE IN ONE DIRECTORY, MOVE THE NEXT 3 ORDERS ONTO THE LAST CHECKED PATCHLIST GREP
-			if [ ! "$(ls -A ${RVRT_VOLD_DIR})" ]; then
+			if [ ! "$(ls -A <PATH TO YOUR BACKUP DIR OF PATCHED DIR>)" ]; then
 				rm -R <PATH TO YOUR BACKUP DIR OF PATCHED DIR>
 			fi
 
